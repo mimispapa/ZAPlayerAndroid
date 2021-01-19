@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ZAPlayerAndroid">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.main.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme_Activity">
             <intent-filter>

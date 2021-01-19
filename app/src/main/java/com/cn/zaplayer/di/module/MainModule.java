@@ -1,9 +1,12 @@
 package com.cn.zaplayer.di.module;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
+import com.cn.zaplayer.di.scope.UserScope;
 import com.cn.zaplayer.ui.main.CollectFragment;
-import com.cn.zaplayer.ui.main.IndexFragment;
+import com.cn.zaplayer.ui.main.MainPresenter;
+import com.cn.zaplayer.ui.main.index.IndexFragment;
 import com.cn.zaplayer.ui.main.MeFragment;
 
 import java.util.ArrayList;
@@ -14,6 +17,24 @@ import dagger.Provides;
 
 @Module
 public class MainModule {
+    private MainPresenter.View mView;
+    private FragmentActivity mActivity;
+
+    public MainModule(MainPresenter.View mView, FragmentActivity activity) {
+        this.mView = mView;
+        this.mActivity = activity;
+    }
+
+    @Provides
+    public FragmentActivity provideFragmentActivity(){
+        return this.mActivity;
+    }
+
+    @Provides
+    public MainPresenter.View provideView(){
+        return this.mView;
+    }
+
     @Provides
     public List<String> provideNameList(){
         List<String> list = new ArrayList<>();

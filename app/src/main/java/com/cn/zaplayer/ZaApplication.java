@@ -1,8 +1,5 @@
 package com.cn.zaplayer;
 
-import android.app.Application;
-import android.os.Build;
-
 import androidx.multidex.MultiDexApplication;
 
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -22,12 +19,17 @@ public class ZaApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (BuildConfig.DEBUG){
+            ARouter.openDebug();
+            ARouter.openLog();
+        }
+        ARouter.init(this);
+
         UrlConfig.load(this);
         initDagger();
         INSTANCE = this;
 
         Fresco.initialize(this);
-        ARouter.getInstance().inject(this);
     }
 
     private void initDagger(){
