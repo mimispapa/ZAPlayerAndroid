@@ -8,23 +8,23 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.cn.zaplayer.R;
+import com.cn.zaplayer.base.IMvpPresenter;
+import com.cn.zaplayer.base.IMvpView;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class MainPresenter {
-    private View mView;
+public class MainPresenter extends IMvpPresenter<MainPresenter.View> {
     private FragmentActivity mFragmentActivity;
     private List<Fragment> mFragmentList;
     private Fragment currentFragment;
 
-    @Inject
-    public MainPresenter(View mView, FragmentActivity mFragmentActivity, List<Fragment> fragmentList) {
-        this.mView = mView;
-        this.mFragmentActivity = mFragmentActivity;
-        this.mFragmentList = fragmentList;
+//    @Inject
+    public MainPresenter(View view) {
+        super(view);
     }
+
 
     public void init() {
         switchFragment(0);
@@ -55,10 +55,10 @@ public class MainPresenter {
         transaction.commitAllowingStateLoss();
         currentFragment = newFragment;
 
-        mView.onChangeTab(index);
+        getView().onChangeTab(index);
     }
 
-    public interface View {
+    public interface View extends IMvpView {
         void onChangeTab(int index);
     }
 }

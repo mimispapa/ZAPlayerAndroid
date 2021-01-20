@@ -1,16 +1,14 @@
 package com.cn.zaplayer.ui.main;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.cn.zaplayer.R;
 import com.cn.zaplayer.ZaApplication;
-import com.cn.zaplayer.di.component.DaggerMainComponent;
 import com.cn.zaplayer.di.module.MainModule;
 
 import java.util.List;
@@ -21,7 +19,6 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     @Inject
     List<String> nameList;
 
-    @Inject
     MainPresenter presenter;
 
 
@@ -31,16 +28,23 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        DaggerMainComponent
-                .builder()
-                .netComponent(ZaApplication.getApplication().getNetComponent())
-                .mainModule(new MainModule(this, this))
-                .build()
-                .inject(this);
+        initDagger();
 
         initViews();
         initListeners();
+    }
+
+    private void initDagger() {
+//        ZaApplication.getApplication()
+//                .getApplicationComponent()
+//                .provideActivityComponent(new MainModule(this))
+//                .inject(this);
+        ZaApplication.getApplication()
+                .getApplicationComponent()
+                .getCommonActivityComponent()
+                .getMainComponent(new MainModule())
+                .inject(this);
+
     }
 
 
@@ -53,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         tabTV2.setText(nameList.get(1));
         tabTV3.setText(nameList.get(2));
 
-        presenter.init();
+//        presenter.init();
     }
 
     private void initListeners() {
@@ -101,5 +105,10 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
     private void textFold(TextView textView, boolean bold){
         textView.getPaint().setFakeBoldText(bold);
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 }

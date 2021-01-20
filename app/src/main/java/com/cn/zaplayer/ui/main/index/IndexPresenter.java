@@ -24,7 +24,7 @@ public class IndexPresenter {
     private RetrofitUtil mRetrofitUtil;
     private Context mContext;
 
-    @Inject
+//    @Inject
     public IndexPresenter(View view, RetrofitUtil retrofitUtil, Context context) {
         mView = view;
         mRetrofitUtil = retrofitUtil;

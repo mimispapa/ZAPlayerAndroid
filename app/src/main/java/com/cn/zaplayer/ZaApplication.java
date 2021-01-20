@@ -4,8 +4,9 @@ import androidx.multidex.MultiDexApplication;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cn.zaplayer.config.UrlConfig;
-import com.cn.zaplayer.di.component.DaggerNetComponent;
-import com.cn.zaplayer.di.component.NetComponent;
+import com.cn.zaplayer.di.component.ApplicationComponent;
+import com.cn.zaplayer.di.component.DaggerApplicationComponent;
+import com.cn.zaplayer.di.module.ApplicationModule;
 import com.cn.zaplayer.di.module.NetModule;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
@@ -14,33 +15,36 @@ public class ZaApplication extends MultiDexApplication {
     public  static ZaApplication  getApplication(){
         return INSTANCE;
     }
-    private NetComponent netComponent;
+
+    private ApplicationComponent applicationComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        INSTANCE = this;
+        initCommon();
+        initDagger();
+    }
+
+    private void initCommon(){
+        Fresco.initialize(this);
         if (BuildConfig.DEBUG){
             ARouter.openDebug();
             ARouter.openLog();
         }
         ARouter.init(this);
-
         UrlConfig.load(this);
-        initDagger();
-        INSTANCE = this;
 
-        Fresco.initialize(this);
     }
 
     private void initDagger(){
-        netComponent = DaggerNetComponent.builder()
+        applicationComponent = DaggerApplicationComponent.builder()
                 .netModule(new NetModule())
+                .applicationModule(new ApplicationModule(this))
                 .build();
-
     }
 
-    public NetComponent getNetComponent(){
-        return netComponent;
+    public ApplicationComponent getApplicationComponent() {
+        return applicationComponent;
     }
-
 }

@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cn.zaplayer.R;
 import com.cn.zaplayer.ZaApplication;
 import com.cn.zaplayer.base.BaseFragment;
-import com.cn.zaplayer.di.component.DaggerIndexComponent;
-import com.cn.zaplayer.di.module.IndexModule;
 import com.cn.zaplayer.entity.VideoListBean;
 
 import javax.inject.Inject;
@@ -18,7 +16,6 @@ public class IndexFragment extends BaseFragment implements IndexPresenter.View {
     private RecyclerView recyclerView;
 
 
-    @Inject
     IndexPresenter presenter;
 
     @Override
@@ -29,11 +26,11 @@ public class IndexFragment extends BaseFragment implements IndexPresenter.View {
     @Override
     public void initDagger() {
         super.initDagger();
-        DaggerIndexComponent.builder()
-                .netComponent(ZaApplication.getApplication().getNetComponent())
-                .indexModule(new IndexModule(this, getContext()))
-                .build()
-                .inject(this);
+//        DaggerIndexComponent.builder()
+//                .netComponent(ZaApplication.getApplication().getNetComponent())
+//                .indexModule(new IndexModule(this, getContext()))
+//                .build()
+//                .inject(this);
     }
 
     @Override

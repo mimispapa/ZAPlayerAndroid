@@ -3,6 +3,7 @@ package com.cn.zaplayer.di.module;
 import com.cn.zaplayer.config.UrlConfig;
 import com.cn.zaplayer.entity.BaseUrlEntity;
 import com.cn.zaplayer.network.RetrofitUtil;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -24,6 +25,12 @@ public class NetModule {
     @Provides
     public List<BaseUrlEntity> urlEntityList(){
         return UrlConfig.urlList();
+    }
+
+    @Provides
+    @Singleton
+    public Gson provideGson(){
+        return new Gson();
     }
 
 }
